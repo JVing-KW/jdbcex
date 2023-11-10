@@ -1,0 +1,53 @@
+plugins {
+    id 'java'
+    id 'war'
+}
+
+group 'org.zerock'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    junitVersion = '5.9.2'
+}
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+dependencies {
+    //하나의 객체 모델(vo)가 다른 객체(DTO) 모델에 매핑되는 방식(반대도 성립)을 자동으로 결정하여 객체 매핑을 쉽게 만드는 것
+    // DTO -> VO, VO-> DTO 로 변환
+    //모델 매퍼는 getter/setter 등을 이용해서 객체의 정보를 다른 객체로 복사하는 기능을 제공
+     implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.0.0'
+
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.24'
+    testCompileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.24'
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.24'
+    testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.24'
+
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.17.2'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.17.2'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.17.2'
+
+    compileOnly ('javax.servlet:javax.servlet-api:4.0.1')
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+    implementation 'org.mariadb.jdbc:mariadb-java-client:3.2.0'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.17.2'
+
+    // https://mvnrepository.com/artifact/com.zaxxer/HikariCP
+    implementation group: 'com.zaxxer', name: 'HikariCP', version: '5.0.1'
+
+}
+
+test {
+    useJUnitPlatform()
+}
